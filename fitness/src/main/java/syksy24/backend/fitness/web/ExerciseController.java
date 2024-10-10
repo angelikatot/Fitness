@@ -83,7 +83,7 @@ public class ExerciseController {
         return "redirect:/exercises";
     }
 
-    @GetMapping("/delete/{id}")
+    @PostMapping("/delete/{id}")
     public String deleteExercise(@PathVariable("id") Long id) {
         log.info("Deleting exercise with ID: " + id);
         exerciseRepository.deleteById(id);

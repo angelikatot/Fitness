@@ -3,13 +3,14 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Exercise</title>
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
 </head>
 
 <body>
-    <div class="container">
-        <h1>Add Exercise</h1>
+    <div class="container mt-5">
+        <h1 class="mb-4">Add Exercise</h1>
         <form th:action="@{/save}" th:object="${exercise}" method="post" class="needs-validation" novalidate>
             <div class="form-group mb-3">
                 <label for="title">Title</label>
@@ -46,8 +47,8 @@
             <div class="form-group mb-3">
                 <label for="duration">Duration (minutes)</label>
                 <input type="number" th:field="*{duration}" class="form-control" id="duration"
-                    placeholder="Enter duration in minutes" required />
-                <div class="invalid-feedback">Please provide the duration of the exercise.</div>
+                    placeholder="Enter duration in minutes" required min="1" />
+                <div class="invalid-feedback">Please provide a valid duration of the exercise.</div>
             </div>
 
             <div class="form-group mb-3">
@@ -66,7 +67,7 @@
                 <div class="invalid-feedback">Please enter tags for the exercise.</div>
             </div>
 
-            <h3>Add Review</h3>
+            <h3 class="mt-4 mb-3">Add Review (Optional)</h3>
             <div class="form-group mb-3">
                 <label for="reviewComment">Review Comment</label>
                 <textarea th:field="*{reviews[0].comment}" class="form-control" id="reviewComment"
@@ -83,6 +84,9 @@
         </form>
     </div>
     <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+    <script>
+        // Add custom validation script here if needed
+    </script>
 </body>
 
 </html>
