@@ -1,0 +1,63 @@
+<form th:action="@{/save}" th:object="${exercise}" method="post" class="needs-validation" novalidate>
+    <div class="form-group mb-3">
+        <label for="title">Title</label>
+        <input type="text" th:field="*{title}" class="form-control" id="title" placeholder="Enter exercise title"
+            required />
+        <div class="invalid-feedback">Please enter a title.</div>
+    </div>
+
+    <div class="form-group mb-3">
+        <label for="description">Description</label>
+        <textarea th:field="*{description}" class="form-control" id="description" placeholder="Describe the exercise"
+            rows="3" required></textarea>
+        <div class="invalid-feedback">Please enter a description.</div>
+    </div>
+
+    <div class="form-group mb-3">
+        <label for="rating">Rating</label>
+        <input type="number" th:field="*{rating}" class="form-control" id="rating" placeholder="0.0 - 5.0" min="0"
+            max="5" step="0.1" required />
+        <div class="invalid-feedback">Please provide a rating between 0.0 and 5.0.</div>
+    </div>
+
+    <div class="form-group mb-3">
+        <label for="muscleGroup">Muscle Group</label>
+        <select th:field="*{muscleGroup}" class="form-select" id="muscleGroup" required>
+            <option value="" disabled selected>Select muscle group</option>
+            <option th:each="group : ${muscleGroups}" th:value="${group}" th:text="${group}"></option>
+        </select>
+        <div class="invalid-feedback">Please select a muscle group.</div>
+    </div>
+
+    <div class="form-group mb-3">
+        <label for="equipment">Equipment</label>
+        <select th:field="*{equipment}" class="form-select" id="equipment" required>
+            <option value="" disabled selected>Select equipment</option>
+            <option th:each="equip : ${equipmentOptions}" th:value="${equip}" th:text="${equip}"></option>
+        </select>
+        <div class="invalid-feedback">Please select the equipment required.</div>
+    </div>
+
+    <div class="form-group mb-3">
+        <label for="duration">Duration (minutes)</label>
+        <input type="number" th:field="*{duration}" class="form-control" id="duration"
+            placeholder="Enter duration in minutes" required />
+        <div class="invalid-feedback">Please provide the duration of the exercise.</div>
+    </div>
+
+    <div class="form-group mb-3">
+        <label for="difficultyLevel">Difficulty Level</label>
+        <select th:field="*{difficultyLevel}" class="form-select" id="difficultyLevel" required>
+            <option value="" disabled selected>Select difficulty level</option>
+            <option th:each="level : ${difficultyLevels}" th:value="${level}" th:text="${level}"></option>
+        </select>
+        <div class="invalid-feedback">Please select a difficulty level.</div>
+    </div>
+
+    <div class="form-group mb-3">
+        <label for="tagsList">Tags</label>
+        <input type="text" name="tagsList" class="form-control" id="tagsList" placeholder="Tags (comma-separated)" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save Exercise</button>
+</form>
