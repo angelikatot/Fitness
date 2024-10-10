@@ -21,12 +21,14 @@
         <input type="number" id="rating" th:field="*{rating}" min="0" max="5" step="0.1" required />
 
         <label for="muscleGroup">Muscle Group:</label>
-        <select id="muscleGroup" th:field="*{muscleGroup}">
+        <select id="muscleGroup" th:field="*{muscleGroup}" required>
+            <option value="" disabled selected>Select muscle group</option>
             <option th:each="group : ${muscleGroups}" th:value="${group}" th:text="${group}"></option>
         </select>
 
         <label for="equipment">Equipment:</label>
-        <select id="equipment" th:field="*{equipment}">
+        <select id="equipment" th:field="*{equipment}" required>
+            <option value="" disabled selected>Select equipment</option>
             <option th:each="equip : ${equipmentOptions}" th:value="${equip}" th:text="${equip}"></option>
         </select>
 
@@ -34,12 +36,13 @@
         <input type="number" id="duration" th:field="*{duration}" required />
 
         <label for="difficultyLevel">Difficulty Level:</label>
-        <select id="difficultyLevel" th:field="*{difficultyLevel}">
+        <select id="difficultyLevel" th:field="*{difficultyLevel}" required>
+            <option value="" disabled selected>Select difficulty level</option>
             <option th:each="level : ${difficultyLevels}" th:value="${level}" th:text="${level}"></option>
         </select>
 
         <label for="tagsList">Tags (comma-separated):</label>
-        <input type="text" id="tagsList" name="tagsList" th:value="${tagsList}" />
+        <input type="text" id="tagsList" name="tagsList" th:value="${exercise.tags}" />
 
         <button type="submit">Update Exercise</button>
     </form>

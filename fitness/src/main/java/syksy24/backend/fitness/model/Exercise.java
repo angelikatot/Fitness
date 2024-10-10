@@ -2,6 +2,7 @@ package syksy24.backend.fitness.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -14,7 +15,6 @@ public class Exercise {
 
     private String title;
     private String description;
-    private double rating;
     private String muscleGroup;
     private String equipment;
     private int duration;
@@ -23,25 +23,29 @@ public class Exercise {
     @ElementCollection
     private List<String> tags;
 
-    // konstruktori
+    private double rating; // Add this line for the rating property
+
+    @OneToMany(mappedBy = "exercise", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Review> reviews = new ArrayList<>();
+
+    // Default constructor
     public Exercise() {
     }
 
-    // konstruktori ja parametrit
-    public Exercise(String title, String description, double rating, String muscleGroup, String equipment, int duration,
-            String difficultyLevel, List<String> tags) {
+    // Constructor with parameters (add the rating parameter)
+    public Exercise(String title, String description, String muscleGroup, String equipment, int duration,
+            String difficultyLevel, List<String> tags, double rating) { // Updated constructor
         this.title = title;
         this.description = description;
-        this.rating = rating;
         this.muscleGroup = muscleGroup;
         this.equipment = equipment;
         this.duration = duration;
         this.difficultyLevel = difficultyLevel;
         this.tags = tags;
+        this.rating = rating; // Set the rating
     }
 
-    // get, set
-
+    // Getters and Setters
     public Long getId() {
         return id;
     }
@@ -64,14 +68,6 @@ public class Exercise {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public double getRating() {
-        return rating;
-    }
-
-    public void setRating(double rating) {
-        this.rating = rating;
     }
 
     public String getMuscleGroup() {
@@ -114,10 +110,36 @@ public class Exercise {
         this.tags = tags;
     }
 
+    public double getRating() { // Add this getter method
+        return rating;
+    }
+
+    public void setRating(double rating) { // Add this setter method
+        this.rating = rating;
+    }
+
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
+    }
+
+    public void addReview(Review review) {
+        reviews.add(review);
+        review.setExercise(this);
+    }
+
+    public double getAverageRating() {
+        return reviews.stream().mapToDouble(Review::getRating).average().orElse(0);
+    }
+
     @Override
     public String toString() {
         return String.format(
-                "Exercise[id=%d, title='%s', muscleGroup='%s', difficultyLevel='%s']",
-                id, title, muscleGroup, difficultyLevel);
+                "Exercise[id=%d, title='%s', muscleGroup='%s', difficultyLevel='%s', rating=%.1f]", // Updated to
+                                                                                                    // include rating
+                id, title, muscleGroup, difficultyLevel, rating);
     }
 }

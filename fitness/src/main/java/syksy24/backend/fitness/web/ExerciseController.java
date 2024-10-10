@@ -2,13 +2,17 @@ package syksy24.backend.fitness.web;
 
 import syksy24.backend.fitness.model.Exercise;
 import syksy24.backend.fitness.model.ExerciseRepository;
+import syksy24.backend.fitness.model.Review;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -24,10 +28,9 @@ public class ExerciseController {
     public String index(Model model) {
         log.info("Index page for exercises");
         return "index";
-        // Ei ole vielä index sivua
     }
 
-    // Lista
+    // Show all exercises
     @GetMapping("/exercises")
     public String showExercises(Model model) {
         log.info("Showing all exercises");
@@ -39,7 +42,9 @@ public class ExerciseController {
     @GetMapping("/add")
     public String addExercise(Model model) {
         log.info("Creating a new exercise");
-        model.addAttribute("exercise", new Exercise());
+        Exercise exercise = new Exercise();
+        exercise.setReviews(new ArrayList<>()); // Initialize the reviews list
+        model.addAttribute("exercise", exercise);
         addCommonAttributes(model);
         return "addExercise";
     }
@@ -83,6 +88,16 @@ public class ExerciseController {
         log.info("Deleting exercise with ID: " + id);
         exerciseRepository.deleteById(id);
         return "redirect:/exercises";
+    }
+
+    @GetMapping("/exercises/{id}/review")
+    public String showReviewForm(@PathVariable Long id, Model model) {
+        Exercise exercise = exerciseRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Exercise not found"));
+
+        model.addAttribute("exercise", exercise);
+        model.addAttribute("review", new Review()); // Assuming you have a Review class
+        return "reviewExercise"; // This should match the name of your HTML file
     }
 
     private void addCommonAttributes(Model model) {

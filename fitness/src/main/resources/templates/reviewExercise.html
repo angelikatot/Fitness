@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Review Exercise</title>
+</head>
+
+<body>
+    <h1>Review Exercise: <span th:text="${exercise.title}"></span></h1>
+
+    <form th:action="@{/reviews/exercise/{exerciseId}/add(exerciseId=${exercise.id})}" method="post"
+        th:object="${review}">
+        <input type="hidden" th:field="*{exercise.id}" />
+
+        <label for="rating">Rating:</label>
+        <input type="number" id="rating" th:field="*{rating}" min="0" max="5" step="0.1" required />
+
+        <label for="comment">Comment:</label>
+        <textarea id="comment" th:field="*{comment}" required></textarea>
+
+        <button type="submit">Submit Review</button>
+    </form>
+
+    <a th:href="@{/exercises}">Back to Exercise List</a>
+</body>
+
+</html>
