@@ -7,7 +7,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collections;
 import java.util.Collection;
-import java.util.List;
 
 @Entity
 @Table(name = "app_user") // Specify a different table name
@@ -17,11 +16,12 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true)
     private String username;
     private String password;
     private String email;
 
-    private String role; // Change from Role type to String
+    private String role;
 
     // Default constructor
     public User() {
@@ -76,7 +76,6 @@ public class User implements UserDetails {
         this.role = role; // Update setter
     }
 
-    // UserDetails methods
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + role));
