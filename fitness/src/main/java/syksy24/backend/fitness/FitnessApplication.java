@@ -2,14 +2,15 @@ package syksy24.backend.fitness;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import syksy24.backend.fitness.model.Exercise;
 import syksy24.backend.fitness.model.ExerciseRepository;
+import syksy24.backend.fitness.model.User;
+import syksy24.backend.fitness.model.UserRepository;
 
 @SpringBootApplication
 public class FitnessApplication {
@@ -39,6 +40,37 @@ public class FitnessApplication {
 			log.info("Listing all exercises");
 			for (Exercise exercise : exerciseRepository.findAll()) {
 				log.info(exercise.toString());
+			}
+		};
+	}
+
+	@Bean
+	public CommandLineRunner initializeTestUsers(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+		return args -> {
+			// Create test user if it doesn't exist
+			if (userRepository.findByUsername("testuser").isEmpty()) {
+				User testUser = new User();
+				testUser.setUsername("testuser");
+				testUser.setPassword(passwordEncoder.encode("testpassword"));
+				testUser.setEmail("testuser@example.com");
+				testUser.setRole("USER");
+				userRepository.save(testUser);
+				log.info("Test user created successfully.");
+			} else {
+				log.info("Test user already exists.");
+			}
+
+			// Create admin user if it doesn't exist
+			if (userRepository.findByUsername("admin").isEmpty()) {
+				User adminUser = new User();
+				adminUser.setUsername("admin");
+				adminUser.setPassword(passwordEncoder.encode("adminpassword"));
+				adminUser.setEmail("admin@example.com");
+				adminUser.setRole("ADMIN");
+				userRepository.save(adminUser);
+				log.info("Admin user created successfully.");
+			} else {
+				log.info("Admin user already exists.");
 			}
 		};
 	}

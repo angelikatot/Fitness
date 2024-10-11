@@ -20,15 +20,14 @@ public class Exercise {
     private int duration;
     private String difficultyLevel;
 
-    // Change CascadeType to include EAGER fetching
+    // EAGER fetching
     @OneToMany(mappedBy = "exercise", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Review> reviews = new ArrayList<>();
 
-    // Default constructor
     public Exercise() {
     }
 
-    // Constructor with parameters
+    // Constructor+ parameters
     public Exercise(String title, String description, String muscleGroup, String equipment, int duration,
             String difficultyLevel) {
         this.title = title;
