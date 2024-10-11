@@ -20,29 +20,23 @@ public class Exercise {
     private int duration;
     private String difficultyLevel;
 
-    @ElementCollection
-    private List<String> tags;
-
-    private double rating; // Add this line for the rating property
-
-    @OneToMany(mappedBy = "exercise", cascade = CascadeType.ALL, orphanRemoval = true)
+    // Change CascadeType to include EAGER fetching
+    @OneToMany(mappedBy = "exercise", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Review> reviews = new ArrayList<>();
 
     // Default constructor
     public Exercise() {
     }
 
-    // Constructor with parameters (add the rating parameter)
+    // Constructor with parameters
     public Exercise(String title, String description, String muscleGroup, String equipment, int duration,
-            String difficultyLevel, List<String> tags, double rating) { // Updated constructor
+            String difficultyLevel) {
         this.title = title;
         this.description = description;
         this.muscleGroup = muscleGroup;
         this.equipment = equipment;
         this.duration = duration;
         this.difficultyLevel = difficultyLevel;
-        this.tags = tags;
-        this.rating = rating; // Set the rating
     }
 
     // Getters and Setters
@@ -102,22 +96,6 @@ public class Exercise {
         this.difficultyLevel = difficultyLevel;
     }
 
-    public List<String> getTags() {
-        return tags;
-    }
-
-    public void setTags(List<String> tags) {
-        this.tags = tags;
-    }
-
-    public double getRating() { // Add this getter method
-        return rating;
-    }
-
-    public void setRating(double rating) { // Add this setter method
-        this.rating = rating;
-    }
-
     public List<Review> getReviews() {
         return reviews;
     }
@@ -131,6 +109,7 @@ public class Exercise {
         review.setExercise(this);
     }
 
+    // Calculate the average rating from reviews
     public double getAverageRating() {
         return reviews.stream().mapToDouble(Review::getRating).average().orElse(0);
     }
@@ -138,8 +117,7 @@ public class Exercise {
     @Override
     public String toString() {
         return String.format(
-                "Exercise[id=%d, title='%s', muscleGroup='%s', difficultyLevel='%s', rating=%.1f]", // Updated to
-                                                                                                    // include rating
-                id, title, muscleGroup, difficultyLevel, rating);
+                "Exercise[id=%d, title='%s', muscleGroup='%s', difficultyLevel='%s', averageRating=%.1f]",
+                id, title, muscleGroup, difficultyLevel, getAverageRating());
     }
 }

@@ -3,50 +3,79 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Exercise</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
 </head>
 
 <body>
-    <h1>Edit Exercise</h1>
-    <form th:action="@{/update}" th:object="${exercise}" method="post">
-        <input type="hidden" th:field="*{id}" />
+    <div class="container mt-5">
+        <h1 class="mb-4">Edit Exercise</h1>
 
-        <label for="title">Title:</label>
-        <input type="text" id="title" th:field="*{title}" required />
+        <form th:action="@{/update}" method="post" th:object="${exercise}" class="needs-validation" novalidate>
+            <input type="hidden" th:field="*{id}" />
 
-        <label for="description">Description:</label>
-        <textarea id="description" th:field="*{description}" required></textarea>
+            <div class="form-group mb-3">
+                <label for="title">Title</label>
+                <input type="text" id="title" th:field="*{title}" class="form-control" required />
+                <div class="invalid-feedback">Please enter a title.</div>
+            </div>
 
-        <label for="rating">Rating:</label>
-        <input type="number" id="rating" th:field="*{rating}" min="0" max="5" step="0.1" required />
+            <div class="form-group mb-3">
+                <label for="description">Description</label>
+                <textarea id="description" th:field="*{description}" class="form-control" rows="3" required></textarea>
+                <div class="invalid-feedback">Please enter a description.</div>
+            </div>
 
-        <label for="muscleGroup">Muscle Group:</label>
-        <select id="muscleGroup" th:field="*{muscleGroup}" required>
-            <option value="" disabled selected>Select muscle group</option>
-            <option th:each="group : ${muscleGroups}" th:value="${group}" th:text="${group}"></option>
-        </select>
+            <div class="form-group mb-3">
+                <label for="muscleGroup">Muscle Group</label>
+                <select th:field="*{muscleGroup}" id="muscleGroup" class="form-select" required>
+                    <option value="" disabled>Select muscle group</option>
+                    <option th:each="group : ${muscleGroups}" th:value="${group}" th:text="${group}"></option>
+                </select>
+                <div class="invalid-feedback">Please select a muscle group.</div>
+            </div>
 
-        <label for="equipment">Equipment:</label>
-        <select id="equipment" th:field="*{equipment}" required>
-            <option value="" disabled selected>Select equipment</option>
-            <option th:each="equip : ${equipmentOptions}" th:value="${equip}" th:text="${equip}"></option>
-        </select>
+            <div class="form-group mb-3">
+                <label for="equipment">Equipment</label>
+                <select th:field="*{equipment}" id="equipment" class="form-select" required>
+                    <option value="" disabled>Select equipment</option>
+                    <option th:each="equip : ${equipmentOptions}" th:value="${equip}" th:text="${equip}"></option>
+                </select>
+                <div class="invalid-feedback">Please select the equipment required.</div>
+            </div>
 
-        <label for="duration">Duration (minutes):</label>
-        <input type="number" id="duration" th:field="*{duration}" required />
+            <div class="form-group mb-3">
+                <label for="duration">Duration (minutes)</label>
+                <input type="number" id="duration" th:field="*{duration}" class="form-control" required min="1" />
+                <div class="invalid-feedback">Please provide a valid duration.</div>
+            </div>
 
-        <label for="difficultyLevel">Difficulty Level:</label>
-        <select id="difficultyLevel" th:field="*{difficultyLevel}" required>
-            <option value="" disabled selected>Select difficulty level</option>
-            <option th:each="level : ${difficultyLevels}" th:value="${level}" th:text="${level}"></option>
-        </select>
+            <div class="form-group mb-3">
+                <label for="difficultyLevel">Difficulty Level</label>
+                <select th:field="*{difficultyLevel}" id="difficultyLevel" class="form-select" required>
+                    <option value="" disabled>Select difficulty level</option>
+                    <option th:each="level : ${difficultyLevels}" th:value="${level}" th:text="${level}"></option>
+                </select>
+                <div class="invalid-feedback">Please select a difficulty level.</div>
+            </div>
 
-        <label for="tagsList">Tags (comma-separated):</label>
-        <input type="text" id="tagsList" name="tagsList" th:value="${exercise.tags}" />
+            <h3 class="mt-4 mb-3">Edit Review (Optional)</h3>
+            <div class="form-group mb-3">
+                <label for="reviewComment">Review Comment</label>
+                <textarea id="reviewComment" th:field="*{reviews[0].comment}" class="form-control"></textarea>
+            </div>
 
-        <button type="submit">Update Exercise</button>
-    </form>
-    <a th:href="@{/exercises}">Back to Exercise List</a>
+            <div class="form-group mb-3">
+                <label for="reviewRating">Review Rating</label>
+                <input type="number" id="reviewRating" th:field="*{reviews[0].rating}" class="form-control" min="0"
+                    max="5" step="0.1" />
+            </div>
+
+            <button type="submit" class="btn btn-primary">Update Exercise</button>
+        </form>
+    </div>
+    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 </body>
 
 </html>

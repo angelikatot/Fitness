@@ -50,10 +50,8 @@ public class ExerciseController {
     }
 
     @PostMapping("/save")
-    public String saveExercise(@ModelAttribute("exercise") Exercise exercise,
-            @RequestParam("tagsList") String tagsList) {
+    public String saveExercise(@ModelAttribute("exercise") Exercise exercise) {
         log.info("Saving exercise: " + exercise);
-        exercise.setTags(Arrays.asList(tagsList.split(","))); // Convert comma-separated string to List
         exerciseRepository.save(exercise);
         return "redirect:/exercises";
     }
@@ -64,8 +62,6 @@ public class ExerciseController {
         Exercise exercise = exerciseRepository.findById(id).orElse(null);
         if (exercise != null) {
             model.addAttribute("exercise", exercise);
-            model.addAttribute("tagsList", String.join(",", exercise.getTags())); // Convert List to comma-separated
-                                                                                  // string
             addCommonAttributes(model);
             return "editExercise";
         } else {
@@ -75,11 +71,13 @@ public class ExerciseController {
     }
 
     @PostMapping("/update")
-    public String updateExercise(@ModelAttribute("exercise") Exercise exercise,
-            @RequestParam("tagsList") String tagsList) {
+    public String updateExercise(@ModelAttribute("exercise") Exercise exercise) {
         log.info("Updating exercise with ID: " + exercise.getId());
-        exercise.setTags(Arrays.asList(tagsList.split(","))); // Convert comma-separated string to List
-        exerciseRepository.save(exercise);
+        if (exerciseRepository.existsById(exercise.getId())) {
+            exerciseRepository.save(exercise);
+        } else {
+            log.warn("Attempted to update non-existent exercise with ID: " + exercise.getId());
+        }
         return "redirect:/exercises";
     }
 

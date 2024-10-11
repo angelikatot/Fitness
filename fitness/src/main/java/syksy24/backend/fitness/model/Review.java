@@ -4,17 +4,30 @@ import jakarta.persistence.*;
 
 @Entity
 public class Review {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String reviewerName;
     private double rating;
-    private String comment; // Optional
+    private String comment;
 
     @ManyToOne
     @JoinColumn(name = "exercise_id")
-    private Exercise exercise; // Link to the associated exercise
+    private Exercise exercise;
+
+    // Default constructor
+    public Review() {
+    }
+
+    // Constructor +parameters
+    public Review(String reviewerName, double rating, String comment, Exercise exercise) {
+        this.reviewerName = reviewerName;
+        this.rating = rating;
+        this.comment = comment;
+        this.exercise = exercise;
+    }
 
     // Getters and Setters
     public Long getId() {
