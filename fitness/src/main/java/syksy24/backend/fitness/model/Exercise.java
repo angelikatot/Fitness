@@ -2,12 +2,17 @@ package syksy24.backend.fitness.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class Exercise {
+
+    private static final Logger log = LoggerFactory.getLogger(Exercise.class);
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,14 +25,12 @@ public class Exercise {
     private int duration;
     private String difficultyLevel;
 
-    // EAGER fetching
     @OneToMany(mappedBy = "exercise", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Review> reviews = new ArrayList<>();
 
     public Exercise() {
     }
 
-    // Constructor+ parameters
     public Exercise(String title, String description, String muscleGroup, String equipment, int duration,
             String difficultyLevel) {
         this.title = title;
@@ -39,6 +42,7 @@ public class Exercise {
     }
 
     // Getters and Setters
+
     public Long getId() {
         return id;
     }
@@ -110,7 +114,23 @@ public class Exercise {
 
     // Calculate the average rating from reviews
     public double getAverageRating() {
-        return reviews.stream().mapToDouble(Review::getRating).average().orElse(0);
+        log.debug("Calculating average rating for exercise: {}", this.id);
+        log.debug("Number of reviews: {}", this.reviews.size());
+
+        if (this.reviews.isEmpty()) {
+            log.debug("No reviews found for exercise: {}", this.id);
+            return 0.0;
+        }
+
+        double sum = 0.0;
+        for (Review review : this.reviews) {
+            log.debug("Review rating: {}", review.getRating());
+            sum += review.getRating();
+        }
+
+        double average = sum / this.reviews.size();
+        log.debug("Calculated average rating: {}", average);
+        return average;
     }
 
     @Override

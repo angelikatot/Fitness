@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Review List</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+</head>
+
+<body>
+    <div class="container mt-5">
+        <div th:if="${exercise == null}" class="alert alert-danger">
+            Exercise not found. <a th:href="@{/exercises}" class="alert-link">Return to exercise list</a>.
+        </div>
+
+        <div th:if="${exercise != null}">
+            <h1>Reviews for <span th:text="${exercise.title}">Exercise Title</span></h1>
+
+            <a th:href="@{/exercises}" class="btn btn-secondary mb-3">Back to Exercises</a>
+
+            <div th:if="${#lists.isEmpty(exercise.reviews)}" class="alert alert-info">
+                No reviews yet for this exercise.
+            </div>
+
+            <div th:unless="${#lists.isEmpty(exercise.reviews)}">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Average Rating: <span
+                                th:text="${#numbers.formatDecimal(exercise.averageRating, 1, 1)}"></span>/5.0</h5>
+                    </div>
+                </div>
+
+                <div class="card mb-3" th:each="review : ${exercise.reviews}">
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="${review.reviewerName}">Reviewer Name</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">
+                            Rating: <span th:text="${review.rating}"></span>/5
+                        </h6>
+                        <p class="card-text" th:text="${review.comment}">Review comment goes here.</p>
+                    </div>
+                </div>
+            </div>
+
+            <a th:href="@{/exercises/{id}/review(id=${exercise.id})}" class="btn btn-primary">Add a Review</a>
+        </div>
+    </div>
+
+    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</body>
+
+</html>

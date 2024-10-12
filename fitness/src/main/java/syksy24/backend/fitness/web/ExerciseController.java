@@ -30,11 +30,11 @@ public class ExerciseController {
         return "index";
     }
 
-    // Show all exercises
+    // Show all exercises and review score
     @GetMapping("/exercises")
     public String showExercises(Model model) {
         log.info("Showing all exercises");
-        List<Exercise> exercises = exerciseRepository.findAll();
+        List<Exercise> exercises = exerciseRepository.findAllWithReviews();
         model.addAttribute("exercises", exercises);
         return "exerciseList";
     }
@@ -94,8 +94,17 @@ public class ExerciseController {
                 .orElseThrow(() -> new ResourceNotFoundException("Exercise not found"));
 
         model.addAttribute("exercise", exercise);
-        model.addAttribute("review", new Review()); // Assuming you have a Review class
-        return "reviewExercise"; // This should match the name of your HTML file
+        model.addAttribute("review", new Review());
+        return "reviewExercise"; // This now matches your HTML file name
+    }
+
+    @GetMapping("/exercises/{id}/reviews")
+    public String showReviews(@PathVariable Long id, Model model) {
+        Exercise exercise = exerciseRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Exercise not found"));
+
+        model.addAttribute("exercise", exercise);
+        return "reviewList";
     }
 
     private void addCommonAttributes(Model model) {

@@ -18,6 +18,7 @@
                     <th>Title</th>
                     <th>Muscle Group</th>
                     <th>Difficulty Level</th>
+                    <th>Average Rating</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -26,6 +27,7 @@
                     <td th:text="${exercise.title}"></td>
                     <td th:text="${exercise.muscleGroup}"></td>
                     <td th:text="${exercise.difficultyLevel}"></td>
+                    <td th:text="${#numbers.formatDecimal(exercise.averageRating, 1, 1)}"></td>
                     <td>
                         <a th:href="@{/edit/{id}(id=${exercise.id})}" class="btn btn-sm btn-warning">Edit</a>
                         <form th:action="@{/delete/{id}(id=${exercise.id})}" method="post" style="display:inline;">
@@ -34,7 +36,10 @@
                                 Delete
                             </button>
                         </form>
-                        <a th:href="@{/exercises/{id}/review(id=${exercise.id})}" class="btn btn-sm btn-info">Review</a>
+                        <a th:href="@{/reviews/exercise/{id}/add(id=${exercise.id})}" class="btn btn-sm btn-info">Add
+                            Review</a>
+                        <a th:href="@{/reviews/exercise/{id}(id=${exercise.id})}" class="btn btn-sm btn-secondary">View
+                            Reviews</a>
                     </td>
                 </tr>
             </tbody>
