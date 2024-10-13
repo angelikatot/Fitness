@@ -12,7 +12,8 @@
     <div class="container mt-5">
         <h1 class="mb-4">Edit Exercise</h1>
 
-        <form th:action="@{/update}" method="post" th:object="${exercise}" class="needs-validation" novalidate>
+        <form th:action="@{/exercises/update}" method="post" th:object="${exercise}" class="needs-validation"
+            novalidate>
             <input type="hidden" th:field="*{id}" />
 
             <div class="form-group mb-3">

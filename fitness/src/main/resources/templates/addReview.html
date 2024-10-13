@@ -9,7 +9,7 @@
 <body>
     <h1>Review Exercise: <span th:text="${exercise.title}"></span></h1>
 
-    <form th:action="@{/reviews/exercise/{exerciseId}/add(exerciseId=${exercise.id})}" method="post"
+    <form th:action="@{/exercises/{exerciseId}/add-review(exerciseId=${exercise.id})}" method="post"
         th:object="${review}">
         <input type="hidden" th:field="*{exercise.id}" />
 

@@ -10,7 +10,7 @@
     <div class="container mt-5">
         <h1>List of Exercises</h1>
 
-        <a th:href="@{/add}" class="btn btn-primary mb-3">Add New Exercise</a>
+        <a th:href="@{/exercises/add}" class="btn btn-primary mb-3">Add New Exercise</a>
 
         <table class="table table-striped">
             <thead>
@@ -29,16 +29,17 @@
                     <td th:text="${exercise.difficultyLevel}"></td>
                     <td th:text="${#numbers.formatDecimal(exercise.averageRating, 1, 1)}"></td>
                     <td>
-                        <a th:href="@{/edit/{id}(id=${exercise.id})}" class="btn btn-sm btn-warning">Edit</a>
-                        <form th:action="@{/delete/{id}(id=${exercise.id})}" method="post" style="display:inline;">
+                        <a th:href="@{/exercises/edit/{id}(id=${exercise.id})}" class="btn btn-sm btn-warning">Edit</a>
+                        <form th:action="@{/exercises/delete/{id}(id=${exercise.id})}" method="post"
+                            style="display:inline;">
                             <button type="submit" class="btn btn-sm btn-danger"
                                 onclick="return confirm('Are you sure you want to delete this exercise?')">
                                 Delete
                             </button>
                         </form>
-                        <a th:href="@{/reviews/exercise/{id}/add(id=${exercise.id})}" class="btn btn-sm btn-info">Add
+                        <a th:href="@{/exercises/{id}/add-review(id=${exercise.id})}" class="btn btn-sm btn-info">Add
                             Review</a>
-                        <a th:href="@{/reviews/exercise/{id}(id=${exercise.id})}" class="btn btn-sm btn-secondary">View
+                        <a th:href="@{/exercises/{id}/reviews(id=${exercise.id})}" class="btn btn-sm btn-secondary">View
                             Reviews</a>
                     </td>
                 </tr>
