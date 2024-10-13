@@ -42,6 +42,12 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/login", "/signup", "/register", "/h2-console/**").permitAll()
+                        .requestMatchers("/exercises/add", "/exercises/{exerciseId}/add-review")
+                        .hasAnyRole("USER", "ADMIN") // Allow users to add exercises and reviews
+                        .requestMatchers("/exercises/edit/**", "/exercises/delete/**").hasRole("ADMIN") // Restrict
+                                                                                                        // editing and
+                                                                                                        // deleting to
+                                                                                                        // admins
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .formLogin(form -> form

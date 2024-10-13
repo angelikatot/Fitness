@@ -29,14 +29,21 @@
                     <td th:text="${exercise.difficultyLevel}"></td>
                     <td th:text="${#numbers.formatDecimal(exercise.averageRating, 1, 1)}"></td>
                     <td>
-                        <a th:href="@{/exercises/edit/{id}(id=${exercise.id})}" class="btn btn-sm btn-warning">Edit</a>
-                        <form th:action="@{/exercises/delete/{id}(id=${exercise.id})}" method="post"
+                        <!-- Edit button shown only for ADMIN -->
+                        <a th:if="${#authorization.expression('hasRole(''ADMIN'')')}"
+                            th:href="@{/exercises/edit/{id}(id=${exercise.id})}" class="btn btn-sm btn-warning">Edit</a>
+
+                        <!-- Delete button shown only for ADMIN -->
+                        <form th:if="${#authorization.expression('hasRole(''ADMIN'')')}"
+                            th:action="@{/exercises/delete/{id}(id=${exercise.id})}" method="post"
                             style="display:inline;">
                             <button type="submit" class="btn btn-sm btn-danger"
                                 onclick="return confirm('Are you sure you want to delete this exercise?')">
                                 Delete
                             </button>
                         </form>
+
+                        <!--  reviews and viewing reviews   for all users -->
                         <a th:href="@{/exercises/{id}/add-review(id=${exercise.id})}" class="btn btn-sm btn-info">Add
                             Review</a>
                         <a th:href="@{/exercises/{id}/reviews(id=${exercise.id})}" class="btn btn-sm btn-secondary">View

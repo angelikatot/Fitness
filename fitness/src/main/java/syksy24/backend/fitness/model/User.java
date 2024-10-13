@@ -9,7 +9,7 @@ import java.util.Collections;
 import java.util.Collection;
 
 @Entity
-@Table(name = "app_user") // Specify a different table name
+@Table(name = "app_user")
 public class User implements UserDetails {
 
     @Id
@@ -21,10 +21,11 @@ public class User implements UserDetails {
     private String password;
     private String email;
 
-    private String role;
+    private String role; // This can still be a String for simplicity
 
     // Default constructor
     public User() {
+        this.role = "USER"; // Set default role
     }
 
     // Constructor with parameters
@@ -32,7 +33,7 @@ public class User implements UserDetails {
         this.username = username;
         this.password = password;
         this.email = email;
-        this.role = role;
+        this.role = (role != null) ? "ROLE_" + role : "ROLE_USER";
     }
 
     // Getters and Setters
@@ -73,12 +74,12 @@ public class User implements UserDetails {
     }
 
     public void setRole(String role) {
-        this.role = role; // Update setter
+        this.role = (role != null) ? "ROLE_" + role : "ROLE_USER"; // Ensure role is prefixed
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + role));
+        return Collections.singletonList(new SimpleGrantedAuthority(role)); // Use the role directly
     }
 
     @Override

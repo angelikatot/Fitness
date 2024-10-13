@@ -47,7 +47,7 @@ public class FitnessApplication {
 	@Bean
 	public CommandLineRunner initializeTestUsers(UserRepository userRepository, PasswordEncoder passwordEncoder) {
 		return args -> {
-			// Create test user if it doesn't exist
+			// create test user
 			if (userRepository.findByUsername("testuser").isEmpty()) {
 				User testUser = new User();
 				testUser.setUsername("testuser");
