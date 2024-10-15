@@ -112,7 +112,7 @@ public class Exercise {
         review.setExercise(this);
     }
 
-    // Calculate the average rating from reviews
+    // keskiarvon laskeminen
     public double getAverageRating() {
         log.debug("Calculating average rating for exercise: {}", this.id);
         log.debug("Number of reviews: {}", this.reviews.size());

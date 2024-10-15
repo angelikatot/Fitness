@@ -145,6 +145,20 @@ public class ExerciseController {
         return "redirect:/exercises/" + exerciseId + "/reviews";
     }
 
+    @GetMapping("/search")
+    public String showSearchForm() {
+        return "searchExercises";
+    }
+
+    @GetMapping("/searchResults")
+    public String searchExercises(@RequestParam("keyword") String keyword, Model model) {
+        log.info("Searching exercises with keyword: " + keyword);
+        List<Exercise> searchResults = exerciseRepository.searchExercises(keyword);
+        model.addAttribute("exercises", searchResults);
+        model.addAttribute("keyword", keyword);
+        return "searchResults";
+    }
+
     private void addCommonAttributes(Model model) {
         model.addAttribute("muscleGroups",
                 Arrays.asList("Chest", "Back", "Legs", "Shoulders", "Arms", "Core", "Full Body"));

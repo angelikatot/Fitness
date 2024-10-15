@@ -17,7 +17,7 @@ public class SecurityConfig {
 
         private final CustomUserDetailsService customUserDetailsService;
 
-        // Inject CustomUserDetailsService via constructor
+        // Inject CustomUserDetailsService
         public SecurityConfig(CustomUserDetailsService customUserDetailsService) {
                 this.customUserDetailsService = customUserDetailsService;
         }
@@ -42,10 +42,11 @@ public class SecurityConfig {
         public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
                 http
                                 .authorizeHttpRequests(auth -> auth
-                                                .requestMatchers("/css/**", "/js/**").permitAll() // Allow access to
-                                                                                                  // static resources
+                                                .requestMatchers("/css/**", "/js/**").permitAll()
                                                 .requestMatchers("/login", "/signup", "/register", "/h2-console/**")
                                                 .permitAll()
+                                                .requestMatchers("/exercises/search", "/exercises/searchResults")
+                                                .hasAnyRole("USER", "ADMIN")
                                                 .requestMatchers("/exercises/add", "/exercises/{exerciseId}/add-review")
                                                 .hasAnyRole("USER", "ADMIN")
                                                 .requestMatchers("/exercises/edit/**", "/exercises/delete/**")

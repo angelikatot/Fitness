@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Search Exercises</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+</head>
+
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Search Exercises</h1>
+
+        <form th:action="@{/exercises/searchResults}" method="get" class="mb-4">
+            <div class="input-group">
+                <input type="text" name="keyword" class="form-control"
+                    placeholder="Enter exercise name, muscle group, or difficulty level" required>
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </div>
+            </div>
+        </form>
+
+        <a th:href="@{/exercises}" class="btn btn-secondary">Back to Exercise List</a>
+    </div>
+    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</body>
+
+</html>
