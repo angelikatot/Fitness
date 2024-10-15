@@ -8,9 +8,15 @@
 
 <body>
     <div class="container mt-5">
-        <h1>List of Exercises</h1>
+        <h1 class="text-center">List of Exercises</h1>
 
-        <a th:href="@{/exercises/add}" class="btn btn-primary mb-3">Add New Exercise</a>
+        <div class="mb-3">
+            <a th:href="@{/exercises/add}" class="btn btn-primary">Add New Exercise</a>
+            <!-- Log Out Button -->
+            <form th:action="@{/logout}" method="post" style="display:inline;">
+                <button type="submit" class="btn btn-danger">Log Out</button>
+            </form>
+        </div>
 
         <table class="table table-striped">
             <thead>
@@ -29,11 +35,9 @@
                     <td th:text="${exercise.difficultyLevel}"></td>
                     <td th:text="${#numbers.formatDecimal(exercise.averageRating, 1, 1)}"></td>
                     <td>
-                        <!-- Edit button shown only for ADMIN -->
                         <a th:if="${#authorization.expression('hasRole(''ADMIN'')')}"
                             th:href="@{/exercises/edit/{id}(id=${exercise.id})}" class="btn btn-sm btn-warning">Edit</a>
 
-                        <!-- Delete button shown only for ADMIN -->
                         <form th:if="${#authorization.expression('hasRole(''ADMIN'')')}"
                             th:action="@{/exercises/delete/{id}(id=${exercise.id})}" method="post"
                             style="display:inline;">
@@ -43,7 +47,6 @@
                             </button>
                         </form>
 
-                        <!--  reviews and viewing reviews   for all users -->
                         <a th:href="@{/exercises/{id}/add-review(id=${exercise.id})}" class="btn btn-sm btn-info">Add
                             Review</a>
                         <a th:href="@{/exercises/{id}/reviews(id=${exercise.id})}" class="btn btn-sm btn-secondary">View

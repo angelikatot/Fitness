@@ -60,7 +60,7 @@ public class FitnessApplication {
 				log.info("Test user already exists.");
 			}
 
-			// Create admin user if it doesn't exist
+			// Create admin user
 			if (userRepository.findByUsername("admin").isEmpty()) {
 				User adminUser = new User();
 				adminUser.setUsername("admin");
