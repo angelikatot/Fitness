@@ -14,4 +14,7 @@ public interface ExerciseRepository extends JpaRepository<Exercise, Long> {
             "OR LOWER(e.muscleGroup) LIKE LOWER(CONCAT('%', :keyword, '%')) " +
             "OR LOWER(e.difficultyLevel) LIKE LOWER(CONCAT('%', :keyword, '%'))")
     List<Exercise> searchExercises(@Param("keyword") String keyword);
+
+    // find exercises by title
+    List<Exercise> findByTitle(String title);
 }

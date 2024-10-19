@@ -24,18 +24,29 @@ public class FitnessApplication {
 	@Bean
 	public CommandLineRunner demoData(ExerciseRepository exerciseRepository) {
 		return (args) -> {
-			log.info("Saving some exercises");
+			log.info("Checking if exercises already exist before saving...");
 
-			exerciseRepository
-					.save(new Exercise("Push-ups", "Classic upper body exercise", "Chest", "None", 5, "Beginner"));
-			exerciseRepository
-					.save(new Exercise("Squats", "Lower body compound exercise", "Legs", "None", 10, "Intermediate"));
-			exerciseRepository
-					.save(new Exercise("Plank", "Core strengthening exercise", "Core", "None", 3, "Beginner"));
-			exerciseRepository.save(
-					new Exercise("Jumping Jacks", "Full body cardio exercise", "Full Body", "None", 5, "Beginner"));
-			exerciseRepository.save(new Exercise("Dumbbell Rows", "Back strengthening exercise", "Back", "Dumbbells", 8,
-					"Intermediate"));
+			// Check each exercise individually based on title
+			if (exerciseRepository.findByTitle("Push-ups").isEmpty()) {
+				exerciseRepository
+						.save(new Exercise("Push-ups", "Classic upper body exercise", "Chest", "None", 5, "Beginner"));
+			}
+			if (exerciseRepository.findByTitle("Squats").isEmpty()) {
+				exerciseRepository.save(
+						new Exercise("Squats", "Lower body compound exercise", "Legs", "None", 10, "Intermediate"));
+			}
+			if (exerciseRepository.findByTitle("Plank").isEmpty()) {
+				exerciseRepository
+						.save(new Exercise("Plank", "Core strengthening exercise", "Core", "None", 3, "Beginner"));
+			}
+			if (exerciseRepository.findByTitle("Jumping Jacks").isEmpty()) {
+				exerciseRepository.save(
+						new Exercise("Jumping Jacks", "Full body cardio exercise", "Full Body", "None", 5, "Beginner"));
+			}
+			if (exerciseRepository.findByTitle("Dumbbell Rows").isEmpty()) {
+				exerciseRepository.save(new Exercise("Dumbbell Rows", "Back strengthening exercise", "Back",
+						"Dumbbells", 8, "Intermediate"));
+			}
 
 			log.info("Listing all exercises");
 			for (Exercise exercise : exerciseRepository.findAll()) {
