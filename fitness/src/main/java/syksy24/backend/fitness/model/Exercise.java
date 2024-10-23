@@ -25,6 +25,7 @@ public class Exercise {
     private int duration;
     private String difficultyLevel;
 
+    // one exercise can have many reviews
     @OneToMany(mappedBy = "exercise", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Review> reviews = new ArrayList<>();
 

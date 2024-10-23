@@ -21,11 +21,11 @@ public class User implements UserDetails {
     private String password;
     private String email;
 
-    private String role; // This can still be a String for simplicity
+    private String role;
 
     // Default constructor
     public User() {
-        this.role = "USER"; // Set default role
+        this.role = "USER"; // default role
     }
 
     // Constructor with parameters
@@ -74,12 +74,12 @@ public class User implements UserDetails {
     }
 
     public void setRole(String role) {
-        this.role = (role != null) ? "ROLE_" + role : "ROLE_USER"; // Ensure role is prefixed
+        this.role = (role != null) ? "ROLE_" + role : "ROLE_USER";
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singletonList(new SimpleGrantedAuthority(role)); // Use the role directly
+        return Collections.singletonList(new SimpleGrantedAuthority(role));
     }
 
     @Override

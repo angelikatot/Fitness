@@ -1,8 +1,10 @@
 package syksy24.backend.fitness.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 @Entity
+@JsonIgnoreProperties("exercise") // thunder client json
 public class Review {
 
     @Id
@@ -17,11 +19,9 @@ public class Review {
     @JoinColumn(name = "exercise_id")
     private Exercise exercise;
 
-    // Default constructor
     public Review() {
     }
 
-    // Constructor +parameters
     public Review(String reviewerName, double rating, String comment, Exercise exercise) {
         this.reviewerName = reviewerName;
         this.rating = rating;

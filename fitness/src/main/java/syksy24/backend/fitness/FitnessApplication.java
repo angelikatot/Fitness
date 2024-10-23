@@ -26,7 +26,7 @@ public class FitnessApplication {
 		return (args) -> {
 			log.info("Checking if exercises already exist before saving...");
 
-			// Check each exercise individually based on title
+			// tarkistetaan onko exercise olemassa jo
 			if (exerciseRepository.findByTitle("Push-ups").isEmpty()) {
 				exerciseRepository
 						.save(new Exercise("Push-ups", "Classic upper body exercise", "Chest", "None", 5, "Beginner"));
