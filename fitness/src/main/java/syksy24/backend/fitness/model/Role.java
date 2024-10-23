@@ -1,3 +1,5 @@
+//eri roolien määrittely (admin, user) että järjestelmä voi tarkitsaa oikeudet
+
 package syksy24.backend.fitness.model;
 
 import org.springframework.security.core.GrantedAuthority;

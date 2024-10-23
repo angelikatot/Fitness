@@ -1,3 +1,5 @@
+//tämä auttaa Spring Securityä löytämään käyttäjätietoja käyttäjänimen perusteella, kun käyttäjä yrittää kirjautua sisään
+
 package syksy24.backend.fitness.web;
 
 import org.springframework.beans.factory.annotation.Autowired;

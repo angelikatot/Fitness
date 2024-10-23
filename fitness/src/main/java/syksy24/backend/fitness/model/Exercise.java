@@ -2,6 +2,7 @@ package syksy24.backend.fitness.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,14 +19,25 @@ public class Exercise {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Title is required")
     private String title;
+
+    @NotBlank(message = "Description is required")
     private String description;
+
+    @NotBlank(message = "Muscle group is required")
     private String muscleGroup;
+
+    @NotBlank(message = "Equipment is required")
     private String equipment;
+
+    @Min(value = 1, message = "Duration must be at least 1 minute")
     private int duration;
+
+    @NotBlank(message = "Difficulty level is required")
     private String difficultyLevel;
 
-    // one exercise can have many reviews
+    // One exercise can have many reviews
     @OneToMany(mappedBy = "exercise", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Review> reviews = new ArrayList<>();
 
@@ -113,7 +125,7 @@ public class Exercise {
         review.setExercise(this);
     }
 
-    // keskiarvon laskeminen
+    // review keskiarvon laskeminen
     public double getAverageRating() {
         log.debug("Calculating average rating for exercise: {}", this.id);
         log.debug("Number of reviews: {}", this.reviews.size());

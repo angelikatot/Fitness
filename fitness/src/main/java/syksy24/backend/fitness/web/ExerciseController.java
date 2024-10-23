@@ -10,8 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import jakarta.validation.Valid;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -77,8 +79,16 @@ public class ExerciseController {
     }
 
     @PostMapping("/save")
-    public String saveExercise(@ModelAttribute("exercise") Exercise exercise, Model model) {
+    public String saveExercise(@Valid @ModelAttribute("exercise") Exercise exercise,
+            BindingResult bindingResult, Model model) {
         log.info("Attempting to save exercise: " + exercise);
+
+        if (bindingResult.hasErrors()) {
+            // in case of validation error
+            addCommonAttributes(model);
+            return "addExercise";
+        }
+
         try {
             exerciseRepository.save(exercise);
             log.info("Exercise saved successfully");
@@ -102,8 +112,15 @@ public class ExerciseController {
     }
 
     @PostMapping("/update")
-    public String updateExercise(@ModelAttribute("exercise") Exercise exercise) {
+    public String updateExercise(@Valid @ModelAttribute("exercise") Exercise exercise,
+            BindingResult bindingResult) {
         log.info("Updating exercise with ID: " + exercise.getId());
+
+        if (bindingResult.hasErrors()) {
+            // in case of validation errors
+            return "editExercise";
+        }
+
         if (exerciseRepository.existsById(exercise.getId())) {
             exerciseRepository.save(exercise);
         } else {
